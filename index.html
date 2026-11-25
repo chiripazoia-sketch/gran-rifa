@@ -373,9 +373,7 @@ const tipoTxt=b=>b.estado=="PAGADA"?`✅ COMPRADA ${money(b.valor)}`:b.estado=="
 function aLiberar(id){const b=A.data.find(x=>x.id==id);if(!b)return;const ab=b.abono>0?"\n\n⚠️ Esta boleta tiene un abono de "+money(b.abono)+" que NO se devuelve.":"";if(confirm("¿Liberar los números "+[b.n1,b.n2,b.n3].filter(Boolean).join(", ")+"?"+ab))aAct("anular","boleta",id)}
 const aTable=rows=>`<table><tr><th>Pedido<th>Nombre<th>Céd.<th>Cel.<th>Números<th>Estado<th>Tipo<th>Pagado/Pend.<th>Fecha<th>Acciones</tr>`+rows.map(b=>`<tr><td>${b.pedido_token.slice(0,5)}<td>${h(b.nombre)}<td>${b.cedula}<td>${b.celular}<td>${[b.n1,b.n2,b.n3].filter(Boolean).join(" ")}<td>${pill(b.estado)}<td>${tipoTxt(b)}<td>${money(b.abono)}/${money(b.valor-b.abono)}<td>${(b.creado||"").slice(0,10)}<td>
  <button class="s r" onclick="aLiberar('${b.id}')">LIBERAR</button><button class=s onclick="aAbono('${b.id}')">ABONO</button><button class="s v" onclick="aAct('pagada','boleta','${b.id}')">PAGADO</button>
- 
- <button class=s onclick="aAct('abono','pedido','${b.pedido_token}')">Abono pedido</button><button class="s v" onclick="aAct('pagada','pedido','${b.pedido_token}')">PAGAR PEDIDO</button>
- ${b.estado=="PERDIDA"?`<button class=s onclick="aAviso('${b.id}')">Avisar</button>`:""}</tr>`).join("")+"</table>";
+ </tr>`).join("")+"</table>";
 function aRows(){const e=document.getElementById("rows");if(e)e.innerHTML=aTable(aFilt())}
 function aBoard(){const c=document.getElementById("cv");if(!c)return;const x=c.getContext("2d");x.fillStyle="#0d1f15";x.fillRect(0,0,600,600);
   A.map={};A.data.filter(b=>b.estado=="PAGADA"||b.estado=="SEPARADA").forEach(b=>{A.map[b.n1]=b;A.map[b.n2]=b;if(b.n3)A.map[b.n3]=b});
